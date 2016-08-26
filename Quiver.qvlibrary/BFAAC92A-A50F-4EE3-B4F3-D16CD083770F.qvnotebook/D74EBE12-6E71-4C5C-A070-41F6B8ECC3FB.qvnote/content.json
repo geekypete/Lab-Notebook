@@ -1,0 +1,137 @@
+{
+  "title": "User Guide",
+  "cells": [
+    {
+      "type": "text",
+      "data": "The following is a guide to installing the software and packages necessary to utilize the current Prostate TDA workflow. This guide applies to all platforms, Linux, Mac, and Windows.&nbsp;"
+    },
+    {
+      "type": "markdown",
+      "data": "###ImageJ"
+    },
+    {
+      "type": "text",
+      "data": "ImageJ requires Java to be installed. To verify if you have Java installed enter&nbsp;"
+    },
+    {
+      "type": "markdown",
+      "data": "`java -version`"
+    },
+    {
+      "type": "text",
+      "data": "into your command prompt (Windows) or terminal (Mac and Linux). &nbsp;If Java is installed you will receive an output similar (but not identical) to this:"
+    },
+    {
+      "type": "markdown",
+      "data": "`java version \"1.7.0_25\"`\n`Java(TM) SE Runtime Environment (build 1.7.0_25-b15)`\n`Java HotSpot(TM) Client VM (build 23.25-b01, mixed mode, sharing)`"
+    },
+    {
+      "type": "text",
+      "data": "Otherwise you need to install Java: &nbsp;<a href=\"https://java.com/en/download/\">https://java.com/en/download/</a>"
+    },
+    {
+      "type": "text",
+      "data": "To install ImageJ follow this link&nbsp;<a href=\"http://downloads.imagej.net/ImageJ2-20160205.zip\">download</a>&nbsp;and extract the resulting zip directory.&nbsp;<div>Move the resultant ImageJ directory to a location of your choice. If on a Mac move to Applications.&nbsp;</div><div>Run the ImageJ executable. You should see a window similar to the following:</div>"
+    },
+    {
+      "type": "markdown",
+      "data": "![Screen Shot 2016-05-24 at 1.15.58 PM.png](quiver-image-url/45E5C14A3D98A495B9119AB38791C04E.png)"
+    },
+    {
+      "type": "text",
+      "data": "To download and install the color deconvolution plugin folllow this link:&nbsp;<a href=\"http://www.mecourse.com/landinig/software/colour_deconvolution.zip\">java and class files</a><div>Extract the resultant files.</div><div>To install the color deconvolution plugin in ImageJ select</div>"
+    },
+    {
+      "type": "markdown",
+      "data": "`Plugins>Install`"
+    },
+    {
+      "type": "text",
+      "data": "from the dropdown menu and select the&nbsp;Colour_Deconvolution.java file.&nbsp;<div>If successful the plugin should be accessible under&nbsp;</div>"
+    },
+    {
+      "type": "markdown",
+      "data": "`Plugins>Color Deconvolution`"
+    },
+    {
+      "type": "markdown",
+      "data": "To perform color deconvolution on a H&E pathology image in order to prepare it for segmentation perform the following steps:\n\n1. Select an image from `File>Open`\n2. Select Color Deconvolution from `Plugins>Color Deconvolution`. The following prompt will appear:\n![Screen Shot 2016-05-24 at 1.39.03 PM.png](quiver-image-url/9D44AB33E1DB0E9443A5CA977D97996F.png)\n3. From the Vectors dropdown menu select H&E and press OK\n4. The resultant output will look similar to this: ![Screen Shot 2016-05-24 at 1.44.20 PM.png](quiver-image-url/EF86D90904CF41CBF15CAC10A108432A.png)\n5. Since we are only interested in nuclei, which are stained with Hematoxylin to produce a bluish hue, we can ignore the other color channels. Lets close out the unrelated windows, keeping (Colour_1) open. It will be identified by having Colour_1 in the window title as well as being a bluish/purple hued image. \n6. Next select `Image>Type>8-Bit` from the menu. This will convert the image to grayscale.\n7. Finally select `Edit>Invert` to invert the pixel intensity of the image. \n8. Congrats! Your image is now ready for segmentation. You can `File>Save As` your image as a .tiff with a name and directory of your choice."
+    },
+    {
+      "type": "markdown",
+      "data": "###Segmentation with Cell Profiler"
+    },
+    {
+      "type": "text",
+      "data": "Download the Cell Profiler executable relevant to your operating system:&nbsp;<a href=\"http://cellprofiler.org/releases/\">http://cellprofiler.org/releases/</a>"
+    },
+    {
+      "type": "markdown",
+      "data": "_Note: Cell Profiler for linux likely needs to be compiled from source. This process will vary by linux distro, and has some daunting dependencies. As such it is beyond the scope of this tutorial, but this forum post offers some insights: http://forum.cellprofiler.org/t/running-cellprofiler-under-linux-in-2016/3313/5_"
+    },
+    {
+      "type": "text",
+      "data": "To perform nuclei segmentation:"
+    },
+    {
+      "type": "markdown",
+      "data": "1. Run CellProfiler. Two windows will open, the welcome screen, shown below, can be closed. ![Screen Shot 2016-05-24 at 2.11.43 PM.png](quiver-image-url/1B88F45DC2021D05896B98F31E3B702A.png)\n2. In the remaining window select `File>Open Project` and select `/gleason-research/Development/Lawson_src/Segmentation/CellProfiler/Eccentricity.ccproj` from the Bitbucket repository. \n3. The current window should appear as below: \n![Screen Shot 2016-05-24 at 2.21.19 PM.png](quiver-image-url/AD270A2F461B0E9D2F176467BF38AA9D.png)\n4. Under the File List right click on the current image file and select `Remove From File List`. Now right click and select `Browse For Images` and select the resultant image from the image you processed using ImageJ. \n5. In the left hand side of the window selct the `View Output Settings` button under Output. On the right will appear directories. Modify the Default Output Folder to a directory that you would like the segmented nuclei file to be output to. \n6. Now press the `Analyze Images` button. Once processing is complete multiple files will be generated in the predefined output directory but the only relevant one will be named `MyExpt_Nuclei.csv`. "
+    },
+    {
+      "type": "markdown",
+      "data": "###Topological Data Analysis with R"
+    },
+    {
+      "type": "markdown",
+      "data": "First install R. The easiest way in Windows is to run the executable available here: <https://cran.r-project.org/bin/windows/base/> , the easiest way on Mac is with either macports or homebrew. With macports simply `sudo port install R` in terminal, or with homebrew `brew install R`. In linux depending on your RPM it will likely be either `sudo apt-get install R-base` or `sudo yum install R`."
+    },
+    {
+      "type": "text",
+      "data": "I would also recommend installing RStudio, a powerful IDE, with packages available for all systems here:&nbsp;<a href=\"https://www.rstudio.com/products/rstudio/download/\">https://www.rstudio.com/products/rstudio/download/</a>&nbsp;. This is not necessary, but it is a useful, especially for those that prefer a GUI over a command line interface.&nbsp;"
+    },
+    {
+      "type": "markdown",
+      "data": "Enter R by either typing `R` into the terminal or opening RStudio and setting your cursor in the command window."
+    },
+    {
+      "type": "markdown",
+      "data": "To install the Topological Data Analysis package necessary to perform persistent homology in the R command prompt enter `install.packages(‘TDA’)`. You will be prompted to select a CRAN mirror…simply select the server that is closest to you geographically. Finally load the package by `library(TDA)`"
+    },
+    {
+      "type": "markdown",
+      "data": "To begin performing analysis you will need to read in your nuclei generated from CellProfiler. The `MyExpt_Nuclei.csv` file has many columns, but you likely only need the X and Y coordinates of the nuclei location. To do so simply `csv<-read.csv('MyExpt_Nuclei.csv', header=TRUE)`. Now you can access all the columns of the file by name. You are likely only interested in `csv$Location_Center_X` and `csv$Location_Center_Y` however, and you can save these to variable names of your choice and begin exploring the TDA package. "
+    },
+    {
+      "type": "text",
+      "data": "For help with TDA review the introductory vignette&nbsp;<a href=\"https://cran.r-project.org/web/packages/TDA/vignettes/article.pdf\">Introduction to TDA</a>&nbsp; and full documentation&nbsp;<a href=\"https://cran.r-project.org/web/packages/TDA/TDA.pdf\">TDA.pdf&nbsp;</a>"
+    },
+    {
+      "type": "markdown",
+      "data": "###R on the Cypress HPC"
+    },
+    {
+      "type": "text",
+      "data": "Finally if you are interested in running TDA on the Cypress High Performance Computing System (and you are a student at Tulane University) contact hpcadmin@tulane.edu to set up an account.&nbsp;"
+    },
+    {
+      "type": "markdown",
+      "data": "Once you have an account you can login with your tulane username and password via ssh: `ssh username@cypress1.tulane.edu` and then entering your password. If you are on Windows you are going to need [putty.exe](https://the.earth.li/~sgtatham/putty/latest/x86/putty.exe) to ssh into Cypress. In Mac and Linux ssh is native."
+    },
+    {
+      "type": "markdown",
+      "data": "Once logged in you will need to load modules to allow you run R. Specifically you will need to run \n`module load R module load R gcc/4.8.2 mercurial/3.7.3`\nR is self explanatory, gcc is to allow you to compile packages within R, and mercurial is to allow you to pull from the bitbucket repo. Once that has successfully run you can run \n`idev` \nto enter an interactive session. Finally load R by running \n`R`\nYou can then follow the regular instructions to install TDA except note that you do not have admin privileges so all packages will install to your personal directory. If prompeted to do so during installation select Yes."
+    },
+    {
+      "type": "text",
+      "data": "For a more detailed tutorial on running R on Cypress visit&nbsp;<a href=\"https://wiki.hpc.tulane.edu/trac/wiki/Workshops/IntroToHpc2015/R\">https://wiki.hpc.tulane.edu/trac/wiki/Workshops/IntroToHpc2015/R</a>&nbsp;and for a more general introduction to High Performance Computing on Cypress visit&nbsp;<a href=\"https://wiki.hpc.tulane.edu/trac/wiki/Workshops/IntroToHpc2015%20\">https://wiki.hpc.tulane.edu/trac/wiki/Workshops/IntroToHpc2015%20</a>."
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": ""
+    }
+  ]
+}

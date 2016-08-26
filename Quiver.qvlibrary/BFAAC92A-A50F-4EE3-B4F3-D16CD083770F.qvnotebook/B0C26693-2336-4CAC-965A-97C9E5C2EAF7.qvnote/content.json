@@ -1,0 +1,45 @@
+{
+  "title": "ROI Selection",
+  "cells": [
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "library(parallel)\nfiles <- dir(\"~/Documents/Lawson_Research/Images/Tulane_Prostate_Cases/Gleason3+3/ROI_Selection_Crop1-A1/\", recursive=TRUE, full.names=TRUE, pattern=\"MyExpt_Nuclei.csv$\")\n\nbottleneckROI<-function(file){\n  \n  nuclei<-read.csv(file)\n  nuclei$Metadata_FileLocation<-gsub(\".*\\\\_(.*)\\\\..*\",\"\\\\1\",nuclei$Metadata_FileLocation)\n  meta<-unique(nuclei$Metadata_FileLocation)\n  nucleisplit<-split(nuclei, nuclei$Metadata_FileLocation)\n  Diag<-list()\n  for(i in nucleisplit)\n  {\n    xnuc<-i$Location_Center_X\n    ynuc<-i$Location_Center_Y\n    X<-matrix(c(i$Location_Center_X,i$Location_Center_Y),ncol=2)\n    xlim<-c(0,max(xnuc))\n    ylim<-c(0,max(ynuc))\n    grid<-3\n    diag<-gridDiag( X=X, FUN=dtm, m0=.01, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\n    Diag<-c(Diag, list(diag))\n  }\n  \n  bottleneck<-x <- matrix(0, nrow = length(Diag), ncol = length(Diag))\n  for (i in 1:length(Diag))\n  {\n    for (j in 1:length(Diag))\n    {\n      bottleneck[i,j]<-bottleneck(Diag[[i]]$diagram,Diag[[j]]$diagram, dimension=1)\n    }\n  }\n  return(bottleneck)\n  \n  \n}\ncl<-makeCluster(detectCores())\nclusterCall(cl, function() library(TDA)) \nclusterExport(cl, list(\"bottleneckROI\"))\nbnROI<-parLapply(cl, files, function(x) bottleneckROI(x))\nstopCluster(cl)\n"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "upperBottleneck<-function(matrixROI){\n  return(matrixROI[upper.tri(matrix(matrixROI, nrow = dim(matrixROI)[1]))])\n}\n\nboxplot(lapply(bnROI, function(x) upperBottleneck(x)))"
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/E8B8395BE06F56A27A2AA7019F5CEE2C.jpg\">"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "Data <- data.frame(\n  Persistence=c(upperROI[[1]],upperROI[[2]],upperROI[[3]],upperROI[[4]],upperROI[[5]],upperROI[[6]],upperROI[[7]]),\n  ROI =factor(rep(c(\"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\"), times=c(length(upperROI[[1]]), length(upperROI[[2]]), length(upperROI[[3]]), length(upperROI[[4]]), length(upperROI[[5]]), length(upperROI[[6]]), length(upperROI[[7]]))))\n)\nfm1 <- aov(Persistence~ROI, data=Data)\nanova(fm1)"
+    },
+    {
+      "type": "markdown",
+      "data": "Analysis of Variance Table\n\nResponse: Persistence\n            Df  Sum Sq Mean Sq F value    Pr(>F)    \nROI          6  323654   53942  74.824 < 2.2e-16 ***\nResiduals 7511 5414855     721                      \n---\nSignif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1"
+    },
+    {
+      "type": "text",
+      "data": "<span style=\"color: rgb(17, 17, 17); font-family: 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Arial, sans-serif; font-size: 15px; background-color: rgb(255, 255, 255);\">unequal sample sizes can affect the homogeneity of variance assumption, need to perform Welsch test</span>"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "################Simulate ROI###########\nrandSample<-sample(30:10000, 300, replace = F)\ngenCirc<-function(rand){\n  a<-data.frame(circleUnif(3000,r=round(rnorm(1,250,50))))\n  a$x1<-a$x1+sample(30:10000, 1, replace = F)\n  a$x2<-a$x2+rand\n  return(a)\n}\ncirc<-lapply(randSample, function(x) genCirc(x))\ndf<-ldply(circ, data.frame)\nplot(df)\n\nY=sample(seq(from = 100, to = 10000, by = 100),120)\nX=sample(seq(from = 100, to = 10000, by = 100),120)\nrandVal<-mapply(c, X, Y, SIMPLIFY=FALSE)\n\ngenCircTest<-function(rand){\n  a<-data.frame(circleUnif(3000,r=round(rnorm(1,250,50))))\n  a$x1<-a$x1+rand[1]\n  a$x2<-a$x2+rand[2]\n  return(a)\n}\ncirc<-lapply(randVal, function(x) genCircTest(x))\ndf<-ldply(circ, data.frame)\nplot(df)"
+    }
+  ]
+}

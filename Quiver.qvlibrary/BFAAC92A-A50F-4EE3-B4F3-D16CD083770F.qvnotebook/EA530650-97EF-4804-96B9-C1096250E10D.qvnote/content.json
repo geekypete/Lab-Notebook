@@ -1,0 +1,24 @@
+{
+  "title": "Field Of View (FOV)",
+  "cells": [
+    {
+      "type": "markdown",
+      "data": "###Aperio CS2 Whole Slide Scanner\n**Objective Lens:** 20x/0.75 NA Plan Apo \n**Scanning Resolution:** 50,000 pixels per inch (0.5 μm per pixel with 20x objective).\nhttps://www.evernote.com/shard/s2/nl/168870199/2c66ecd2-a088-440c-a6b5-d37757358b94/\n\n[Aperio CS2 PDF Spec Sheet](evernote:///view/168870199/s2/2c66ecd2-a088-440c-a6b5-d37757358b94/2c66ecd2-a088-440c-a6b5-d37757358b94/)\n\n###Pathologist Field of View\nAndrew utilizes a Nikon Eclipse 50i with the CF160 optical system with a F.N. of 22"
+    },
+    {
+      "type": "latex",
+      "language": "latex",
+      "data": "$F.O.V. (Diameter)= \\frac{Eyepiece F.N.}{M(ob)^{*}}(mm)\\\\ \\text{M(ob): Objective lens magnification}\\\\ \\text{F.N.: Field Number}$"
+    },
+    {
+      "type": "latex",
+      "language": "latex",
+      "data": "F.N.22 Eyepiece With 20X Objective: $\\frac{22}{20X}=1.1mm = 1100 \\mu m\\\\ {1100 \\mu m}*2^{*}= 2,200 \\text{ pixels diameter}\\\\* .5 \\mu m \\text{ per pixel}$"
+    },
+    {
+      "type": "latex",
+      "language": "latex",
+      "data": "F.N.22 Eyepiece With 4X Objective: $\\frac{22}{5X}=5.5mm = 5500 \\mu m\\\\ {5500 \\mu m}*2^{*}= 11,000 \\text{ pixels diameter}\\\\* .5 \\mu m \\text{ per pixel}$"
+    }
+  ]
+}

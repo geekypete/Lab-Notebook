@@ -1,0 +1,53 @@
+{
+  "title": "Tulane Whole Slide Prostate Pathology Image Gleason 3+3 Case ",
+  "cells": [
+    {
+      "type": "markdown",
+      "data": "Whole slide pathology images were acquired from Tulane Medical School specimens. Analysis in this instance is completed on a specimen graded Gleason 3+3\\. The complete image is viewable at http://www.gigapan.org/gigapans/187032. \n\n###Gleason 3 Area Cropped Into Four Regions of Interest\n![cropA.png](quiver-image-url/31AA6653AFB7CF359227B3C7F11AD392.png) ![cropB.png](quiver-image-url/5F8644D98FACB3DCD293BA0A141CB4CA.png)\n![cropC.png](quiver-image-url/284D853822B5981F57E28E2C118658F0.png) ![cropD.png](quiver-image-url/0680E360C4559375DC0A9D63C4BCF7C1.png)"
+    },
+    {
+      "type": "markdown",
+      "data": "###Preprocessing"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "nuclei<-read.csv('./Images_Nuclei/TulaneWS/nuclei.csv')\nnuclei$Metadata_FileLocation<-gsub(\".*\\\\_(.*)\\\\..*\",\"\\\\1\",nuclei$Metadata_FileLocation)\nmeta<-unique(nuclei$Metadata_FileLocation)\nnucleisplit<-split(nuclei, nuclei$Metadata_FileLocation)"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "nuclei<-read.csv('./Images_Nuclei/TulaneWS/nuclei.csv')\nnuclei$Metadata_FileLocation<-gsub(\".*\\\\_(.*)\\\\..*\",\"\\\\1\",nuclei$Metadata_FileLocation)\nmeta<-unique(nuclei$Metadata_FileLocation)\nnucleisplit<-split(nuclei, nuclei$Metadata_FileLocation)\nDiag<-list()\ni<-nucleisplit[[1]]\nxnuc<-i$Location_Center_X\nynuc<-i$Location_Center_Y\nX<-matrix(c(i$Location_Center_X,i$Location_Center_Y),ncol=2)\nxlim<-c(0,max(xnuc))\nylim<-c(0,max(ynuc))\ngrid<-3\ndiag<-gridDiag( X=X, FUN=dtm, m0=.01, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\nperstImage('/home/boggs543/Pictures/TulaneWS/cropA.png',X,diag)"
+    },
+    {
+      "type": "markdown",
+      "data": "![Screen Shot 2016-05-09 at 8.46.45 AM.png](quiver-image-url/C76F403091E2F3E1932506C530AA7B97.png)"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "cycleVis(diag, X, '/home/boggs543/Pictures/TulaneWS/cropA.png',1)"
+    },
+    {
+      "type": "markdown",
+      "data": "![Screen Shot 2016-05-09 at 8.51.34 AM.png](quiver-image-url/4A77B98A0C545568E5399403E58626B4.png)"
+    },
+    {
+      "type": "markdown",
+      "data": "###Persistent Homology Distance to Measure with Grid Size of 3 and Variable M0"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "rm(list=ls())\nsetwd(dir = 'Documents/Lawson_Research/gleason/gleason-research/Development/')\nlibrary(doParallel)\nlibrary(TDA)\nlibrary(abind)\nlibrary(foreach)\nlibrary(ggplot2)\nlibrary(gplots)\nsource(\"./Lawson_src/R/persistenceFunctions.R\")\nnuclei<-read.csv('Images_Nuclei/TulaneWS/nuclei.csv')\nnuclei$Metadata_FileLocation<-gsub(\".*\\\\_(.*)\\\\..*\",\"\\\\1\",nuclei$Metadata_FileLocation)\nmeta<-unique(nuclei$Metadata_FileLocation)\nnucleisplit<-split(nuclei, nuclei$Metadata_FileLocation)\npdf('/home/boggs543/Documents/testingOut.pdf',width=12, height=6)\nfor(i in nucleisplit){\n  filename<-i$Metadata_FileLocation[1]\n  tempname<-regmatches(filename, regexpr(\"^[^.]+\",filename))\n  basename <- regmatches(tempname, regexpr(\"[^/]+$\",tempname))\n  xnuc<-i$Location_Center_X\n  ynuc<-i$Location_Center_Y\n  X<-matrix(c(i$Location_Center_X,i$Location_Center_Y),ncol=2)\n  xlim<-c(0,max(xnuc))\n  ylim<-c(0,max(ynuc))\n  grid<-3\n  cl<-makeCluster(detectCores())\n  registerDoParallel(cl)\n  ptm<-proc.time()\n  loop<-foreach(i=seq(.001,.1,.002),.packages='TDA') %dopar% {\n    \n    conf<-bootstrapDiagram(X, dtm, lim = cbind(xlim,ylim), by = grid, sublevel = TRUE, B = 10, m0 = i , parallel = FALSE, dimension = 1, printProgress = FALSE)\n    diag<-gridDiag( X=X, FUN=dtm, m0=i, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\n    perst<-diag$diagram[,3][which(diag$diagram[,1]==1)]-diag$diagram[,2][which(diag$diagram[,1]==1)]\n    x<-rep(i,length(perst))\n    list(perst, x, conf)\n  }\n  proc.time()-ptm\n  stopCluster(cl)\n  print(smoothPlot(loop,basename))\n}\ndev.off()\n"
+    },
+    {
+      "type": "markdown",
+      "data": "![Screen Shot 2016-05-09 at 7.21.45 AM.png](quiver-image-url/12DAF795F3C3F7EC55C4517697C9D17D.png)\n\n![Screen Shot 2016-05-09 at 7.22.10 AM.png](quiver-image-url/10641DC749DF5A10C08267CB31183DBC.png)\n\n![Screen Shot 2016-05-09 at 7.22.28 AM.png](quiver-image-url/51B2EDAD80D99E9903545D82F63E89CD.png)\n\n![Screen Shot 2016-05-09 at 7.22.41 AM.png](quiver-image-url/B0593D12AA93CACD3C146B82665E2879.png)"
+    },
+    {
+      "type": "markdown",
+      "data": ""
+    }
+  ]
+}

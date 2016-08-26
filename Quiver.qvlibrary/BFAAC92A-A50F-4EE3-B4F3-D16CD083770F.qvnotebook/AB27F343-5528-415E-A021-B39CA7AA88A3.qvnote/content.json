@@ -1,0 +1,22 @@
+{
+  "title": "Exploration",
+  "cells": [
+    {
+      "type": "markdown",
+      "data": "###Statistical Methods\nJaccard similarity coefficients to compare images (See Computer-aided identification of prostatic adenocarcinoma: Segmentation of glandular structures paper). Used for comparing the similarity and diversity of sample sets. Defined by the size of the intesection divided by the size of the union of the sample sets:"
+    },
+    {
+      "type": "latex",
+      "language": "latex",
+      "data": "$J(A,B) = \\frac{\\lvert A\\cap B \\rvert}{\\lvert A\\cup B \\rvert} = \\frac{\\lvert A\\cap B \\rvert}{\\lvert A\\rvert + \\lvert B\\rvert - \\lvert A\\cap B \\rvert } $"
+    },
+    {
+      "type": "markdown",
+      "data": "https://www.zotero.org/groups/458921/items/itemKey/2M8FASX2"
+    },
+    {
+      "type": "markdown",
+      "data": "###Optimization\n\n1. OpenBLAS for workstation speedup\n2. Recompile R on Cypress with Intel Math Kernel Library or request Revolution Analytics R on Cypress"
+    }
+  ]
+}

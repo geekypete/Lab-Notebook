@@ -1,0 +1,113 @@
+{
+  "title": "Evaluate Gleason 3 Stromal Filtering",
+  "cells": [
+    {
+      "type": "markdown",
+      "data": "### Filtered Gleason 3 - No Filtering by Eccentricity"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "nuclei<-read.csv('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3filterEccen1.csv')\nxnuc<-nuclei$Location_Center_X\nynuc<-nuclei$Location_Center_Y\nX<-matrix(c(xnuc,ynuc),ncol=2)\nxlim<-c(0,max(xnuc))\nylim<-c(0,max(ynuc))\ngrid<-3\ndiag<-gridDiag( X=X, FUN=dtm, m0=.01, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\npng('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3filterEccen1Perst.png')\nplot(diag[[\"diagram\"]],main=\"Filtered Eccentricity: 1\",diagLim=c(25,85),dimension=1)\ndev.off()"
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/2861FA5F5B2A9ED27C53D1FF96324AE4.jpg\"><img src=\"quiver-image-url/7A0D369D204C1FBA2AA0EB26308113EE.png\" alt=\"gleason3filterEccen1Perst.png\"><br>"
+    },
+    {
+      "type": "markdown",
+      "data": "### Filtered Gleason 3 - Filter Eccentricity \\> .9"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "nuclei<-read.csv('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3filterEccen.9.csv')\nxnuc<-nuclei$Location_Center_X\nynuc<-nuclei$Location_Center_Y\nX<-matrix(c(xnuc,ynuc),ncol=2)\nxlim<-c(0,max(xnuc))\nylim<-c(0,max(ynuc))\ngrid<-3\ndiag<-gridDiag( X=X, FUN=dtm, m0=.01, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\npng('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3filterEccen.9Perst.png')\nplot(diag[[\"diagram\"]],main=\"Filtered Eccentricity: .9\",diagLim=c(25,85),dimension=1)\ndev.off()"
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/9DC4713B321AD255A0436CBF4E563BD4.jpg\"><img src=\"quiver-image-url/C0C7CDAD3D223AF0CC977A5B3F001D23.png\" alt=\"gleason3filterEccen.9Perst.png\">"
+    },
+    {
+      "type": "markdown",
+      "data": "### Gleason 3 - No Filtering by Eccentricity"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "nuclei<-read.csv('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3Eccen1.csv')\nxnuc<-nuclei$Location_Center_X\nynuc<-nuclei$Location_Center_Y\nX<-matrix(c(xnuc,ynuc),ncol=2)\nxlim<-c(0,max(xnuc))\nylim<-c(0,max(ynuc))\ngrid<-3\ndiag<-gridDiag( X=X, FUN=dtm, m0=.01, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\npng('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3Eccen1Perst.png')\nplot(diag[[\"diagram\"]],main=\"Eccentricity: 1\",diagLim=c(25,85),dimension=1)\ndev.off()"
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/7CC8AFA018D76070B4284B7902DB43E9.jpg\"><img src=\"quiver-image-url/5525ABF8FD27C5B8DE6935C08A639917.png\" alt=\"gleason3Eccen1Perst.png\">"
+    },
+    {
+      "type": "markdown",
+      "data": "### Gleason 3 - Filter Eccentricity \\> .95"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "nuclei<-read.csv('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3Eccen.95.csv')\nxnuc<-nuclei$Location_Center_X\nynuc<-nuclei$Location_Center_Y\nX<-matrix(c(xnuc,ynuc),ncol=2)\nxlim<-c(0,max(xnuc))\nylim<-c(0,max(ynuc))\ngrid<-3\ndiag<-gridDiag( X=X, FUN=dtm, m0=.01, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\npng('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3Eccen.95Perst.png')\nplot(diag[[\"diagram\"]],main=\"Eccentricity: .95\",diagLim=c(25,85),dimension=1)\ndev.off()"
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/94786098CE04017DC63865548775CB1C.jpg\"><img src=\"quiver-image-url/9465A4DBE6EF7CBF73A5DCCFFE47E22C.png\" alt=\"gleason3Eccen.95Perst.png\">"
+    },
+    {
+      "type": "markdown",
+      "data": "### Gleason 3 - Filter Eccentricity \\> .9"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "nuclei<-read.csv('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3Eccen.9.csv')\nxnuc<-nuclei$Location_Center_X\nynuc<-nuclei$Location_Center_Y\nX<-matrix(c(xnuc,ynuc),ncol=2)\nxlim<-c(0,max(xnuc))\nylim<-c(0,max(ynuc))\ngrid<-3\ndiag<-gridDiag( X=X, FUN=dtm, m0=.01, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\npng('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3Eccen.9Perst.png')\nplot(diag[[\"diagram\"]],main=\"Eccentricity: .9\",diagLim=c(25,85),dimension=1)\ndev.off()"
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/F2042BEF320B142B8FD945500F05587F.jpg\"><img src=\"quiver-image-url/9F372B25290CDA3CB5F54AEF85A0751B.png\" alt=\"gleason3Eccen.9Perst.png\">"
+    },
+    {
+      "type": "markdown",
+      "data": "### Gleason 3 - Filter Eccentricity \\> .85"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "nuclei<-read.csv('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3Eccen.85.csv')\nxnuc<-nuclei$Location_Center_X\nynuc<-nuclei$Location_Center_Y\nX<-matrix(c(xnuc,ynuc),ncol=2)\nxlim<-c(0,max(xnuc))\nylim<-c(0,max(ynuc))\ngrid<-3\ndiag<-gridDiag( X=X, FUN=dtm, m0=.01, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\npng('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3Eccen.85Perst.png')\nplot(diag[[\"diagram\"]],main=\"Eccentricity: .85\",diagLim=c(25,85),dimension=1)\ndev.off()"
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/9DE72A45F35FAF541B80053858595E30.jpg\"><img src=\"quiver-image-url/991BD4FBFD12D2B4AE3C738F8A35598E.png\" alt=\"gleason3Eccen.85Perst.png\">"
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "markdown",
+      "data": "### Gleason 3 - Filter Eccentricity \\> .8"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "nuclei<-read.csv('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3Eccen.8.csv')\nxnuc<-nuclei$Location_Center_X\nynuc<-nuclei$Location_Center_Y\nX<-matrix(c(xnuc,ynuc),ncol=2)\nxlim<-c(0,max(xnuc))\nylim<-c(0,max(ynuc))\ngrid<-3\ndiag<-gridDiag( X=X, FUN=dtm, m0=.01, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\npng('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3Eccen.8Perst.png')\nplot(diag[[\"diagram\"]],main=\"Eccentricity: .8\",diagLim=c(25,85),dimension=1)\ndev.off()"
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/338E4B90BB16C02E304A9F2AA1A36FDA.jpg\"><img src=\"quiver-image-url/41ED162702000272AF875B13FC403B52.png\" alt=\"gleason3Eccen.8Perst.png\"><br>"
+    },
+    {
+      "type": "markdown",
+      "data": "### Gleason 3 - Filter Eccentricity \\> .75"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "nuclei<-read.csv('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3Eccen.75.csv')\nxnuc<-nuclei$Location_Center_X\nynuc<-nuclei$Location_Center_Y\nX<-matrix(c(xnuc,ynuc),ncol=2)\nxlim<-c(0,max(xnuc))\nylim<-c(0,max(ynuc))\ngrid<-3\ndiag<-gridDiag( X=X, FUN=dtm, m0=.01, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\npng('/home/boggs543/Documents/Lawson_Research/gleason-research/Development/cycles/GleasonImages/Nuclei/gleason3Eccen.75Perst.png')\nplot(diag[[\"diagram\"]],main=\"Eccentricity: .75\",diagLim=c(25,85),dimension=1)\ndev.off()"
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/223AC2CB9C7A74B4F333967499204536.jpg\"><img src=\"quiver-image-url/9544FF681635D7C7FC3FBA6F5935B433.png\" alt=\"gleason3Eccen.75Perst.png\"><br>"
+    }
+  ]
+}

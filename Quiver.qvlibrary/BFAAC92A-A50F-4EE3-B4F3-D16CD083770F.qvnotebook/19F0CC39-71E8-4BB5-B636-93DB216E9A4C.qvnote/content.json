@@ -1,0 +1,110 @@
+{
+  "title": "Data Exploration Gleason 3+3 1-A1 Crop ",
+  "cells": [
+    {
+      "type": "markdown",
+      "data": "###Example Images 1-A1\\_crop\\_33"
+    },
+    {
+      "type": "text",
+      "data": "<div><img src=\"quiver-image-url/050548698FA0B8B7AAFA1350345D892F.jpg\" style=\"color: rgb(255, 255, 255);\"><img src=\"quiver-image-url/C60F966ECFCDA97BABC805B7E408D777.jpg\" style=\"color: rgb(255, 255, 255);\"><img src=\"quiver-image-url/2D66103C835A63F57179C85DAB549571.jpg\" style=\"color: rgb(255, 255, 255);\"><br></div>"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "nuclei<-read.csv('~/Documents/Lawson_Research/Images/Tulane_Prostate_Cases/Gleason3+3/Crop1-A1/Segmented_Crop/MyExpt_Nuclei.csv')\nnuclei$Metadata_FileLocation<-gsub(\".*\\\\_(.*)\\\\..*\",\"\\\\1\",nuclei$Metadata_FileLocation)\nmeta<-unique(nuclei$Metadata_FileLocation)\nnucleisplit<-split(nuclei, nuclei$Metadata_FileLocation)\nDiag<-list()\nfor(i in nucleisplit)\n{\n  xnuc<-i$Location_Center_X\n  ynuc<-i$Location_Center_Y\n  X<-matrix(c(i$Location_Center_X,i$Location_Center_Y),ncol=2)\n  xlim<-c(0,max(xnuc))\n  ylim<-c(0,max(ynuc))\n  grid<-3\n  diag<-gridDiag( X=X, FUN=dtm, m0=.01, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\n  Diag<-c(Diag, list(diag))\n}\n\nbottleneck<-x <- matrix(0, nrow = length(Diag), ncol = length(Diag))\nfor (i in 1:length(Diag))\n{\n  for (j in 1:length(Diag))\n  {\n    bottleneck[i,j]<-bottleneck(Diag[[i]]$diagram,Diag[[j]]$diagram, dimension=1)\n  }\n}\n\nheatmap(bottleneck)"
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/CE96FE4C5656E1F65224FCBAAC247DB5.jpg\">"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "hist(bottleneck, breaks=40)"
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/E955EFA68740A7BF2C9410E470A8FD1F.jpg\">&nbsp;"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "dg<-Diag[[11]]$diagram\nhist(dg[,3][which(dg[,1]==1)]-dg[,2][which(dg[,1]==1)], breaks=200)"
+    },
+    {
+      "type": "markdown",
+      "data": "###Histogram Persistence 1-A1\\_crop\\_33 DTM Grid=3\\. M0=.01\n\n![](quiver-image-url/4E312D2AC4734E14E5EDE6C4EB1DDCB1.jpg)"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "dg<-Diag[[11]]$diagram\nmin<-min(dg[,2][which(dg[,1]==1)])\nmax<-max(dg[,3][which(dg[,1]==1)])\nplot(dg[,2][which(dg[,1]==1)],dg[,3][which(dg[,1]==1)], xlim=c(min, max), ylim=c(min, max), col=2,pch=24, xlab=\"Birth\", ylab=\"Death\",bty='l', lwd=2)\nabline(a=0,b=1)"
+    },
+    {
+      "type": "markdown",
+      "data": "###Persistence 1-A1\\_crop\\_33 DTM Grid=3\\. M0=.01\n\n![](quiver-image-url/7476F8D2C5C3DF30059342C44C1984FE.jpg)"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "i<-nucleisplit[[11]]\nxnuc<-i$Location_Center_X\nynuc<-i$Location_Center_Y\nX<-matrix(c(i$Location_Center_X,i$Location_Center_Y),ncol=2)\nxlim<-c(0,max(xnuc))\nylim<-c(0,max(ynuc))\ngrid<-3\ndiag<-gridDiag( X=X, FUN=dtm, m0=.01, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )"
+    },
+    {
+      "type": "markdown",
+      "data": "###Cycles 1-A1\\_crop\\_33 DTM Grid=3\\. M0=.01\n\n![](quiver-image-url/2D36B7C419B3F8F8E1D8753361BF4006.jpg)"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "i<-nucleisplit[[11]]\nxnuc<-i$Location_Center_X\nynuc<-i$Location_Center_Y\nX<-matrix(c(i$Location_Center_X,i$Location_Center_Y),ncol=2)\nxlim<-c(0,max(xnuc))\nylim<-c(0,max(ynuc))\ngrid<-3\ndiag<-ripsDiag( X=X, maxdimension=1 , maxscale=100, dist = \"euclidean\", library = \"Dionysus\",\n             location = TRUE, printProgress = FALSE)\ndg<-diag$diagram\nmin<-min(dg[,2][which(dg[,1]==1)])\nmax<-max(dg[,3][which(dg[,1]==1)])\nplot(dg[,2][which(dg[,1]==1)],dg[,3][which(dg[,1]==1)], xlim=c(min, max), ylim=c(min, max), col=2,pch=24, xlab=\"Birth\", ylab=\"Death\",bty='l', lwd=2)\nabline(a=0,b=1)"
+    },
+    {
+      "type": "markdown",
+      "data": "###Persistence 1-A1\\_crop\\_33 RipsDiagram\n\n ![](quiver-image-url/E61B44FAF755AC78961EF3C0AD7FA3BA.jpg)"
+    },
+    {
+      "type": "markdown",
+      "data": "###Cycles 1-A1\\_crop\\_33 RipsDiagram\n\n![](quiver-image-url/071DACB32017E30CEBC5F4CDAC83485A.jpg)"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "\nlibrary(parallel)\nfiles <- dir(\"~/Documents/Lawson_Research/Images/Tulane_Prostate_Cases/Gleason3+3/ROI_Selection_Crop1-A1/\", recursive=TRUE, full.names=TRUE, pattern=\"MyExpt_Nuclei.csv$\")\n\nbottleneckROI<-function(file){\n  \n  nuclei<-read.csv(file)\n  nuclei$Metadata_FileLocation<-gsub(\".*\\\\_(.*)\\\\..*\",\"\\\\1\",nuclei$Metadata_FileLocation)\n  meta<-unique(nuclei$Metadata_FileLocation)\n  nucleisplit<-split(nuclei, nuclei$Metadata_FileLocation)\n  Diag<-list()\n  for(i in nucleisplit)\n  {\n    xnuc<-i$Location_Center_X\n    ynuc<-i$Location_Center_Y\n    X<-matrix(c(i$Location_Center_X,i$Location_Center_Y),ncol=2)\n    xlim<-c(0,max(xnuc))\n    ylim<-c(0,max(ynuc))\n    grid<-3\n    diag<-gridDiag( X=X, FUN=dtm, m0=.01, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\n    Diag<-c(Diag, list(diag))\n  }\n  \n  bottleneck<-x <- matrix(0, nrow = length(Diag), ncol = length(Diag))\n  for (i in 1:length(Diag))\n  {\n    for (j in 1:length(Diag))\n    {\n      bottleneck[i,j]<-bottleneck(Diag[[i]]$diagram,Diag[[j]]$diagram, dimension=1)\n    }\n  }\n  return(bottleneck)\n  \n  \n}\ncl<-makeCluster(detectCores())\nclusterCall(cl, function() library(TDA)) \nclusterExport(cl, list(\"bottleneckROI\"))\nbnROI<-parLapply(cl, files, function(x) bottleneckROI(x))\nstopCluster(cl)\n"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "upperBottleneck<-function(matrixROI){\n  return(matrixROI[upper.tri(matrix(matrixROI, nrow = dim(matrixROI)[1]))])\n}\n\nboxplot(lapply(bnROI, function(x) upperBottleneck(x)))"
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/E8B8395BE06F56A27A2AA7019F5CEE2C.jpg\">"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "Data <- data.frame(\n  Persistence=c(upperROI[[1]],upperROI[[2]],upperROI[[3]],upperROI[[4]],upperROI[[5]],upperROI[[6]],upperROI[[7]]),\n  ROI =factor(rep(c(\"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\"), times=c(length(upperROI[[1]]), length(upperROI[[2]]), length(upperROI[[3]]), length(upperROI[[4]]), length(upperROI[[5]]), length(upperROI[[6]]), length(upperROI[[7]]))))\n)\nfm1 <- aov(Persistence~ROI, data=Data)\nanova(fm1)"
+    },
+    {
+      "type": "markdown",
+      "data": "Analysis of Variance Table\n\nResponse: Persistence\n            Df  Sum Sq Mean Sq F value    Pr(>F)    \nROI          6  323654   53942  74.824 < 2.2e-16 ***\nResiduals 7511 5414855     721                      \n---\nSignif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1"
+    },
+    {
+      "type": "text",
+      "data": "<span style=\"color: rgb(17, 17, 17); font-family: Roboto, Arial, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255);\">difference between the sample sizes is too large, this&nbsp;can affect the homogeneity of variance assumption. [utilizes sum-of-squares]</span>"
+    },
+    {
+      "type": "text",
+      "data": "Notes: add a freq plot to the actual function value<div>to what degree will sampling affect distributions= look at borders, ROI selection</div><div>ks compare distributions</div>"
+    },
+    {
+      "type": "text",
+      "data": ""
+    },
+    {
+      "type": "text",
+      "data": "<br>"
+    }
+  ]
+}

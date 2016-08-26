@@ -1,0 +1,25 @@
+{
+  "title": "Segmentation",
+  "cells": [
+    {
+      "type": "markdown",
+      "data": "###Segmentation with Gland Mask\ngleason-research/Development/Lawson_src/Segmentation/CellProfiler/glandmask.cpproj"
+    },
+    {
+      "type": "text",
+      "data": "<div><img src=\"quiver-image-url/2AEEF60954EC2EEF405C96F9C2787F9C.jpg\"><br></div><div><br></div><img src=\"quiver-image-url/9946BCA4394B8E696ECD97CF3F81D761.jpg\"><div><br><div><img src=\"quiver-image-url/73B9250BF4CC6325B1B0ECB3D3CDE329.jpg\"></div><div><br></div><div><img src=\"quiver-image-url/BFD61759AE0088DE8D15DDD3CFDECCD9.jpg\"><br></div><div><br></div><div><img src=\"quiver-image-url/0C84B18F169BDF24CE16C4C5FCEC3BB6.jpg\"><br></div><div><br></div><div><img src=\"quiver-image-url/83EFAF0E6B0AD97F588DF040D9DBFFF8.jpg\"><img src=\"quiver-image-url/D79D5B1CFE8CF03A093F885DF55565FF.jpg\" style=\"color: rgb(255, 255, 255);\"><br></div><div><br></div><div><img src=\"quiver-image-url/CDAE807F1090139EFAC910930AFB11D3.jpg\"><img src=\"quiver-image-url/ABA1ED0682C7BD5B2E805843F3C7BA9B.jpg\" style=\"color: rgb(255, 255, 255);\"><br></div></div>"
+    },
+    {
+      "type": "markdown",
+      "data": "###Segmentation by Eccentricity\ngleason-research/Development/Lawson_src/Segmentation/CellProfiler/Eccentricity.cpproj\nThe eccentricity of the ellipse that has the same second-moments as the region. The eccentricity is the ratio of the distance between the foci of the ellipse and its major axis length. The value is between 0 and 1."
+    },
+    {
+      "type": "text",
+      "data": "<img src=\"quiver-image-url/B675804FA5F4491C65FF8BB659446DF7.jpg\"><img src=\"quiver-image-url/5F6266E64A160BBA29812070B737A196.jpg\"><div><br></div><div><img src=\"quiver-image-url/FDD51237BDCE21EFCAB0C9514A564451.jpg\"><img src=\"quiver-image-url/5F6266E64A160BBA29812070B737A196.jpg\"><br><div><br></div></div>"
+    },
+    {
+      "type": "markdown",
+      "data": ""
+    }
+  ]
+}

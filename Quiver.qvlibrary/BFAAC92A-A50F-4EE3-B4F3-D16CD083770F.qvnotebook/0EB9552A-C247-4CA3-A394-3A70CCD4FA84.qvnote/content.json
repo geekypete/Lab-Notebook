@@ -1,0 +1,63 @@
+{
+  "title": "Statistics",
+  "cells": [
+    {
+      "type": "markdown",
+      "data": "##Preprocessing\nGenerate a vector of persistence diagrams based on 3 Gleason 3, 3 Gleason 4, and 3 Gleason 5 images based on The Gleason Grading System. \n\n**Gleason 3:**  2.51, 2.55, 2.56\n**Gleason 4:** 2.155, 2.165. 2.166\n**Gleason 5:** 2.339, 2.343, 2.344\n"
+    },
+    {
+      "type": "diagram",
+      "diagramType": "flow",
+      "data": ""
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "nuclei<-read.csv('./Images_Nuclei/Gleason3x3/nuclei.csv')\nnuclei$Metadata_FileLocation<-gsub(\".*\\\\_(.*)\\\\..*\",\"\\\\1\",nuclei$Metadata_FileLocation)\nmeta<-unique(nuclei$Metadata_FileLocation)\nnucleisplit<-split(nuclei, nuclei$Metadata_FileLocation)\nDiag<-list()\nfor(i in nucleisplit)\n{\n  xnuc<-i$Location_Center_X\n  ynuc<-i$Location_Center_Y\n  X<-matrix(c(i$Location_Center_X,i$Location_Center_Y),ncol=2)\n  xlim<-c(0,max(xnuc))\n  ylim<-c(0,max(ynuc))\n  grid<-3\n  diag<-gridDiag( X=X, FUN=dtm, m0=.01, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\n  Diag<-c(Diag, list(diag))\n}"
+    },
+    {
+      "type": "markdown",
+      "data": "# Kolmogorov-Smirnoff Tests\n"
+    },
+    {
+      "type": "markdown",
+      "data": "Figure 2.51 (Gleason 3) vs Figure 2.51 (Gleason 3)"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "fig2.51<-Diag[[7]]$diagram[,3]-Diag[[7]]$diagram[,2]\nks.test(fig2.51,fig2.51)"
+    },
+    {
+      "type": "markdown",
+      "data": "Two-sample Kolmogorov-Smirnov test\n\ndata:  fig2.51 and fig2.51\nD = 0, p-value = 1\nalternative hypothesis: two-sided\n\nWarning message:\nIn ks.test(fig2.51, fig2.51) :\n  p-value will be approximate in the presence of ties"
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "fig2.55<-Diag[[8]]$diagram[,3]-Diag[[8]]$diagram[,2]\nks.test(fig2.51,fig2.55)"
+    },
+    {
+      "type": "markdown",
+      "data": "Two-sample Kolmogorov-Smirnov test\n\ndata:  fig2.51 and fig2.55\nD = 0.1056, p-value = 2.388e-05\nalternative hypothesis: two-sided"
+    },
+    {
+      "type": "text",
+      "data": "It seems the KS test is highly sensitive to differences in data. This is unsurprising as fig. 2.51 and fig 2.55, while both gleason three, are significantly different. In order to evaluate how sensitive KS is to differences in data I will look at the same point cloud, but with a slightly varied smoothing factor. In particular I will use a distance to measure function and vary the m0 by .001."
+    },
+    {
+      "type": "code",
+      "language": "r",
+      "data": "\nnuclei<-read.csv('./Images_Nuclei/Gleason3x3/nuclei.csv')\nnuclei$Metadata_FileLocation<-gsub(\".*\\\\_(.*)\\\\..*\",\"\\\\1\",nuclei$Metadata_FileLocation)\nmeta<-unique(nuclei$Metadata_FileLocation)\nnucleisplit<-split(nuclei, nuclei$Metadata_FileLocation)\nDiag<-list()\ni<-nucleisplit[[1]]\nxnuc<-i$Location_Center_X\nynuc<-i$Location_Center_Y\nX<-matrix(c(i$Location_Center_X,i$Location_Center_Y),ncol=2)\nxlim<-c(0,max(xnuc))\nylim<-c(0,max(ynuc))\ngrid<-3\ndiag<-gridDiag( X=X, FUN=dtm, m0=.011, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\ndiag2<-gridDiag( X=X, FUN=dtm, m0=.01, lim=cbind(xlim,ylim), location=TRUE, by=grid, sublevel=T, library=\"Dionysus\", printProgress=FALSE )\nDiag<-diag$diagram[,3]-diag$diagram[,2]\nDiag2<-diag2$diagram[,3]-diag2$diagram[,2]"
+    },
+    {
+      "type": "latex",
+      "language": "latex",
+      "data": "\tTwo-sample Kolmogorov-Smirnov test\n\ndata:  Diag and Diag2\nD = 0.0441, p-value = 0.3006\nalternative hypothesis: two-sided"
+    },
+    {
+      "type": "text",
+      "data": ""
+    }
+  ]
+}
